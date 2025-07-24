@@ -1,0 +1,7 @@
+auth-service/
+user-service/
+problem-service/
+submission-service/
+judging-service/
+api-gateway/
+discovery-server/ 

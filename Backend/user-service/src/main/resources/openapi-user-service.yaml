@@ -1,0 +1,116 @@
+openapi: 3.0.1
+info:
+  title: User Service API
+  version: 1.0.0
+  description: API quản lý hồ sơ người dùng và lịch sử nộp bài
+servers:
+  - url: http://localhost:8080
+paths:
+  /users/{id}:
+    get:
+      summary: Lấy thông tin user theo id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Thông tin user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDTO'
+        '404':
+          description: User không tồn tại
+          content:
+            application/json:
+              schema:
+                type: string
+    put:
+      summary: Cập nhật thông tin user
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdateRequest'
+      responses:
+        '200':
+          description: User đã cập nhật
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDTO'
+        '404':
+          description: User không tồn tại
+          content:
+            application/json:
+              schema:
+                type: string
+  /users/{id}/submissions:
+    get:
+      summary: Lấy lịch sử nộp bài của user
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Danh sách submissions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SubmissionHistoryDTO'
+components:
+  schemas:
+    UserDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+        avatar:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    UserUpdateRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        avatar:
+          type: string
+    SubmissionHistoryDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        problemId:
+          type: integer
+        language:
+          type: string
+        status:
+          type: string
+        score:
+          type: integer
+        submittedAt:
+          type: string
+          format: date-time 

@@ -1,0 +1,80 @@
+openapi: 3.0.1
+info:
+  title: Auth Service API
+  version: 1.0.0
+  description: API xác thực người dùng cho hệ thống CodeChallenge
+servers:
+  - url: http://localhost:8081
+paths:
+  /auth/register:
+    post:
+      summary: Đăng ký tài khoản mới
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '200':
+          description: Đăng ký thành công
+          content:
+            text/plain:
+              schema:
+                type: string
+        '400':
+          description: Email đã tồn tại hoặc dữ liệu không hợp lệ
+  /auth/login:
+    post:
+      summary: Đăng nhập và nhận JWT
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthRequest'
+      responses:
+        '200':
+          description: Đăng nhập thành công, trả về JWT
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: Email hoặc mật khẩu không đúng
+components:
+  schemas:
+    RegisterRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          example: user@example.com
+        username:
+          type: string
+          example: johndoe
+        password:
+          type: string
+          example: secret123
+      required:
+        - email
+        - username
+        - password
+    AuthRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          example: user@example.com
+        password:
+          type: string
+          example: secret123
+      required:
+        - email
+        - password
+    AuthResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9... 
