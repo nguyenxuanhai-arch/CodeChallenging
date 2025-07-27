@@ -20,16 +20,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @Column(name = "user_catalogue_id")
     private Long userCatalogueId;
 
     private String name;
     private String email;
     private String password;
-    private String phone;
-    private String address;
-    private String image;
 
     @Column(name = "created_at", updatable=false)
     private LocalDateTime createdAt;

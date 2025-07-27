@@ -49,7 +49,6 @@ public class UserService implements UserServiceInterface {
                     .id(user.getId())
                     .email(user.getEmail())
                     .name(user.getName())
-                    .phone(user.getPhone())
                     .build();
             String token = jwtService.generateToken(user.getId(), user.getEmail(), defaultExpiration);
             String refreshToken = jwtService.generateRefreshToken(user.getId(), user.getEmail());
@@ -70,7 +69,6 @@ public class UserService implements UserServiceInterface {
             User payload = User.builder()
                     .email(request.getEmail())
                     .name(request.getName())
-                    .phone(request.getPhone())
                     .password(passwordEncoder.encode(request.getPassword()))
                     .userCatalogueId(request.getUserCatalogId())
                     .build();

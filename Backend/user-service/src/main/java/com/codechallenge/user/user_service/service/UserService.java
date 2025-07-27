@@ -1,16 +1,17 @@
 package com.codechallenge.user.user_service.service;
 
 import com.codechallenge.user.user_service.dto.UserDTO;
+import com.codechallenge.user.user_service.dto.UserProfileRequest;
 import com.codechallenge.user.user_service.dto.UserUpdateRequest;
-import com.codechallenge.user.user_service.dto.SubmissionHistoryDTO;
 import java.util.List;
 
 public interface UserService {
-    UserDTO getUserById(Long id);
-    List<UserDTO> getAllUsers();
-    UserDTO createUser(UserDTO userDTO);
-    UserDTO updateUser(Long id, UserUpdateRequest request);
-    void deleteUser(Long id);
-    List<SubmissionHistoryDTO> getSubmissionHistory(Long userId);
+    void createUser(UserProfileRequest request);
+    UserDTO getById(Long id);
+    UserDTO getByEmail(String email);
+    List<UserDTO> getAll();
+    UserDTO update(Long id, UserUpdateRequest request);
+    void delete(Long id);
 }
+
 
