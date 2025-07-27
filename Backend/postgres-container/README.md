@@ -60,6 +60,8 @@ docker-compose up -d
 > - Port: `5432`
 > - Username: `postgres`
 > - Password: `postgres`
+![alt text](image.png)
+![alt text](image-1.png)
 
 ## 💾 Lưu trữ dữ liệu
 
