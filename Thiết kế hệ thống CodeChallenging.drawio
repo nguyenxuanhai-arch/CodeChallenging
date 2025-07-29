@@ -37,16 +37,16 @@
             <mxPoint x="119.00000000000023" y="99" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="eKK3N9lMVBsKYANuo7Ul-6" value="Identify service&lt;div&gt;(MYSQL)&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="eKK3N9lMVBsKYANuo7Ul-6" value="Identify service&lt;div&gt;(PostgreSQL)&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="-22" y="286" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="eKK3N9lMVBsKYANuo7Ul-23" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="eKK3N9lMVBsKYANuo7Ul-8" target="eKK3N9lMVBsKYANuo7Ul-21" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="eKK3N9lMVBsKYANuo7Ul-8" value="User service&lt;div&gt;(Neo4J)&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="eKK3N9lMVBsKYANuo7Ul-8" value="User service&lt;div&gt;(PostgreSQL)&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="166" y="289" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="eKK3N9lMVBsKYANuo7Ul-10" value="Problem service&lt;div&gt;(MongoDB)&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="eKK3N9lMVBsKYANuo7Ul-10" value="Problem service&lt;div&gt;(PostgreSQL)&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="354" y="291" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="eKK3N9lMVBsKYANuo7Ul-12" value="" style="endArrow=classic;html=1;rounded=0;" parent="1" source="eKK3N9lMVBsKYANuo7Ul-2" target="eKK3N9lMVBsKYANuo7Ul-10" edge="1">
@@ -67,7 +67,7 @@
         <mxCell id="eKK3N9lMVBsKYANuo7Ul-15" value="Search service&lt;div&gt;(Elastic search)&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="649" y="446" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="eKK3N9lMVBsKYANuo7Ul-17" value="Notification Service&lt;div&gt;(MongoDB)&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="eKK3N9lMVBsKYANuo7Ul-17" value="Notification Service&lt;div&gt;(Postgre + JSONB)&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="65" y="461" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="eKK3N9lMVBsKYANuo7Ul-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;curved=1;" parent="1" source="eKK3N9lMVBsKYANuo7Ul-20" target="eKK3N9lMVBsKYANuo7Ul-13" edge="1">
