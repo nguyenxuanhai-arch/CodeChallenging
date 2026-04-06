@@ -14,7 +14,7 @@
 Ví dụ tạo auth-service:
 ```bash
 cd Backend
-mvn archetype:generate -DgroupId=com.codechallenge.auth -DartifactId=auth-service -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+mvn archetype:generate -DgroupId=com.codechallenge.auth -DartifactId=auth-services -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
 ```
 
 Lặp lại với các service khác, thay đổi groupId/artifactId cho phù hợp.
