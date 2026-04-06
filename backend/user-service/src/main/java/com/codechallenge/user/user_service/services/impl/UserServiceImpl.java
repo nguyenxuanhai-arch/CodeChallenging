@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
                 .urlAvatar(request.getUrlAvatar())
                 .phone(request.getPhone())
                 .address(request.getAddress())
-                .role(request.getRole())
+                .role(request.getRole() != null ? request.getRole() : "USER")
                 .totalSubmissions(0)
                 .totalAccepted(0)
                 .createdAt(LocalDateTime.now())
@@ -56,14 +56,21 @@ public class UserServiceImpl implements UserService {
     public UserResponse getById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + id));
-        return mapToDTO(user);
+        return mapToResponse(user);
+    }
+
+    @Override
+    public UserResponse getByEmail(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
+        return mapToResponse(user);
     }
 
     @Override
     public List<UserResponse> getAll() {
         return userRepository.findAll()
                 .stream()
-                .map(this::mapToDTO)
+                .map(this::mapToResponse)
                 .collect(Collectors.toList());
     }
 
@@ -88,7 +95,7 @@ public class UserServiceImpl implements UserService {
 
         User updatedUser = userRepository.save(user);
         log.info("User updated successfully with ID: {}", id);
-        return mapToDTO(updatedUser);
+        return mapToResponse(updatedUser);
     }
 
     @Override
@@ -101,7 +108,21 @@ public class UserServiceImpl implements UserService {
         log.info("User deleted successfully with ID: {}", id);
     }
 
-    private UserResponse mapToDTO(User user) {
+    @Override
+    @Transactional
+    public void updateStats(Long userId, Integer totalSubmissions, Integer totalAccepted) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + userId));
+        
+        user.setTotalSubmissions(totalSubmissions);
+        user.setTotalAccepted(totalAccepted);
+        
+        userRepository.save(user);
+        log.info("Updated stats for user {}: {} submissions, {} accepted", 
+                userId, totalSubmissions, totalAccepted);
+    }
+
+    private UserResponse mapToResponse(User user) {
         return UserResponse.builder()
                 .id(user.getId())
                 .email(user.getEmail())
