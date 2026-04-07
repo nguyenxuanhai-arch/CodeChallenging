@@ -1,40 +1,36 @@
 package com.codechallenge.gateway.api_gateway.configs;
 
-import org.springframework.cloud.gateway.server.mvc.handler.GatewayRouterFunctions;
-import org.springframework.cloud.gateway.server.mvc.handler.HandlerFunctions;
+import org.springframework.cloud.gateway.route.RouteLocator;
+import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.function.RequestPredicates;
-import org.springframework.web.servlet.function.RouterFunction;
-import org.springframework.web.servlet.function.ServerResponse;
-
-import static org.springframework.cloud.gateway.server.mvc.filter.FilterFunctions.addRequestHeader;
-import static org.springframework.cloud.gateway.server.mvc.handler.GatewayRouterFunctions.route;
 
 @Configuration
 public class RouteConfig {
 
     @Bean
-    public RouterFunction<ServerResponse> gatewayRoutes() {
-        return route("auth-service")
-                .route(RequestPredicates.path("/auth/**"), 
-                       HandlerFunctions.http("http://auth-service"))
-                .filter(addRequestHeader("X-Gateway", "API-Gateway"))
-                .build()
+    public RouteLocator gatewayRoutes(RouteLocatorBuilder builder) {
+        return builder.routes()
+                .route("auth-service", r -> r
+                        .path("/auth/**")
+                        .filters(f -> f.addRequestHeader("X-Gateway", "API-Gateway"))
+                        .uri("lb://auth-service"))
                 
-                .and(route("user-service")
-                        .route(RequestPredicates.path("/api/users/**"),
-                               HandlerFunctions.http("http://user-service"))
-                        .build())
+                .route("user-service", r -> r
+                        .path("/api/users/**")
+                        .filters(f -> f.addRequestHeader("X-Gateway", "API-Gateway"))
+                        .uri("lb://user-service"))
                 
-                .and(route("problem-service")
-                        .route(RequestPredicates.path("/api/problems/**"),
-                               HandlerFunctions.http("http://problem-service"))
-                        .build())
+                .route("problem-service", r -> r
+                        .path("/api/problems/**")
+                        .filters(f -> f.addRequestHeader("X-Gateway", "API-Gateway"))
+                        .uri("lb://problem-service"))
                 
-                .and(route("submission-service")
-                        .route(RequestPredicates.path("/api/submissions/**"),
-                               HandlerFunctions.http("http://submission-service"))
-                        .build());
+                .route("submission-service", r -> r
+                        .path("/api/submissions/**")
+                        .filters(f -> f.addRequestHeader("X-Gateway", "API-Gateway"))
+                        .uri("lb://submission-service"))
+                
+                .build();
     }
 }

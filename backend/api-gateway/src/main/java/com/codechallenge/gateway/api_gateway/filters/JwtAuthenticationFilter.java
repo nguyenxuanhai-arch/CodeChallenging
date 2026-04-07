@@ -2,48 +2,44 @@ package com.codechallenge.gateway.api_gateway.filters;
 
 import com.codechallenge.gateway.api_gateway.securities.JwtUtil;
 import io.jsonwebtoken.Claims;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
-
-import java.io.IOException;
+import org.springframework.web.server.ServerWebExchange;
+import org.springframework.web.server.WebFilter;
+import org.springframework.web.server.WebFilterChain;
+import reactor.core.publisher.Mono;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
+public class JwtAuthenticationFilter implements WebFilter {
 
     private final JwtUtil jwtUtil;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
-
-        String path = request.getRequestURI();
+    public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
+        ServerHttpRequest request = exchange.getRequest();
+        String path = request.getURI().getPath();
 
         // Skip JWT validation for public endpoints
         if (isPublicEndpoint(path)) {
             log.debug("Public endpoint accessed: {}", path);
-            filterChain.doFilter(request, response);
-            return;
+            return chain.filter(exchange);
         }
 
-        final String authHeader = request.getHeader("Authorization");
+        String authHeader = request.getHeaders().getFirst("Authorization");
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             log.warn("Missing or invalid Authorization header for path: {}", path);
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("{\"error\":\"Unauthorized - Missing or invalid token\"}");
-            return;
+            exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+            return exchange.getResponse().setComplete();
         }
 
         try {
-            final String jwt = authHeader.substring(7);
+            String jwt = authHeader.substring(7);
             
             if (jwtUtil.validateToken(jwt)) {
                 Claims claims = jwtUtil.extractAllClaims(jwt);
@@ -52,22 +48,24 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 String role = claims.get("role", String.class);
 
                 // Forward user information via headers to downstream services
-                request.setAttribute("X-User-Id", userId != null ? userId.toString() : "");
-                request.setAttribute("X-User-Email", email);
-                request.setAttribute("X-User-Role", role);
+                ServerHttpRequest mutatedRequest = request.mutate()
+                        .header("X-User-Id", userId != null ? userId.toString() : "")
+                        .header("X-User-Email", email != null ? email : "")
+                        .header("X-User-Role", role != null ? role : "")
+                        .build();
 
                 log.debug("JWT validated for user: {}, role: {}", email, role);
                 
-                filterChain.doFilter(request, response);
+                return chain.filter(exchange.mutate().request(mutatedRequest).build());
             } else {
                 log.warn("Invalid JWT token");
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.getWriter().write("{\"error\":\"Unauthorized - Invalid token\"}");
+                exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+                return exchange.getResponse().setComplete();
             }
         } catch (Exception e) {
             log.error("JWT authentication error: {}", e.getMessage());
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("{\"error\":\"Unauthorized - " + e.getMessage() + "\"}");
+            exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+            return exchange.getResponse().setComplete();
         }
     }
 

@@ -33,9 +33,6 @@ public class User {
     @Column(length = 255)
     private String address;
 
-    @Column(length = 20)
-    private String role;
-
     @Column(name = "total_submissions")
     private Integer totalSubmissions = 0;
 

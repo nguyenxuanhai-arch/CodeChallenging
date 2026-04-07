@@ -145,101 +145,111 @@ Backend Services (Trust Gateway - Đọc Headers)
 
 ---
 
-### 4️⃣ PROBLEM SERVICE (Port 8083) - CHƯA TRIỂN KHAI
+### 4️⃣ PROBLEM SERVICE (Port 8083) - ✅ HOÀN THÀNH
 
 #### Setup Base
-- [ ] Tạo cấu trúc thư mục chuẩn
-  - [ ] configs/
-  - [ ] controllers/
-  - [ ] dtos/
-  - [ ] entities/
-  - [ ] exceptions/
-  - [ ] repositories/
-  - [ ] securities/
-  - [ ] services/impl/
+- [x] Tạo cấu trúc thư mục chuẩn
+  - [x] configs/
+  - [x] controllers/
+  - [x] dtos/
+  - [x] entities/
+  - [x] exceptions/
+  - [x] repositories/
+  - [x] securities/
+  - [x] services/impl/
 
 #### Dependencies
-- [ ] Spring Boot Starter Web
-- [ ] Spring Boot Starter Data JPA
-- [ ] Spring Boot Starter Security
-- [ ] Spring Boot Starter Validation
-- [ ] PostgreSQL Driver
-- [ ] Lombok
-- [ ] Eureka Client
+- [x] Spring Boot Starter Web
+- [x] Spring Boot Starter Data JPA
+- [x] Spring Boot Starter Security
+- [x] Spring Boot Starter Validation
+- [x] PostgreSQL Driver
+- [x] Lombok
+- [x] Eureka Client
 
 #### Configuration
-- [ ] application.properties
-  - [ ] Server port: 8083
-  - [ ] Database: problem_db
-  - [ ] Eureka config
+- [x] application.properties
+  - [x] Server port: 8083
+  - [x] Database: problem_db
+  - [x] Eureka config
 
 #### Security (Trust Gateway)
-- [ ] GatewayHeaderFilter.java
-- [ ] SecurityConfig.java
-- [ ] WebConfig.java
+- [x] GatewayHeaderFilter.java
+- [x] SecurityConfig.java
+- [x] WebConfig.java
 
 #### Entities
-- [ ] Problem.java
-  - [ ] id, title, description, difficulty
-  - [ ] timeLimit, memoryLimit
-  - [ ] tags, category
-  - [ ] createdBy, createdAt, updatedAt
+- [x] Problem.java
+  - [x] id, title, description, difficulty
+  - [x] timeLimit, memoryLimit
+  - [x] tags, category
+  - [x] createdBy, createdAt, updatedAt
   
-- [ ] TestCase.java
-  - [ ] id, problemId
-  - [ ] input, expectedOutput
-  - [ ] isPublic (sample test case)
-  - [ ] orderIndex
+- [x] TestCase.java
+  - [x] id, problemId
+  - [x] input, expectedOutput
+  - [x] isPublic (sample test case)
+  - [x] orderIndex
 
 #### DTOs
-- [ ] ProblemResponse
-- [ ] ProblemCreateRequest
-- [ ] ProblemUpdateRequest
-- [ ] TestCaseResponse
-- [ ] TestCaseCreateRequest
+- [x] ProblemResponse
+- [x] ProblemCreateRequest
+- [x] ProblemUpdateRequest
+- [x] TestCaseResponse
+- [x] TestCaseCreateRequest
+- [x] TestCaseUpdateRequest
 
 #### Repositories
-- [ ] ProblemRepository
-- [ ] TestCaseRepository
+- [x] ProblemRepository (with search, filter)
+- [x] TestCaseRepository
 
 #### Services
-- [ ] ProblemService interface
-- [ ] ProblemServiceImpl
-  - [ ] getAllProblems() - Pagination, Filter
-  - [ ] getProblemById()
-  - [ ] createProblem() - ADMIN only
-  - [ ] updateProblem() - ADMIN only
-  - [ ] deleteProblem() - ADMIN only
-  - [ ] getTestCases() - Public test cases cho user, all cho admin
+- [x] ProblemService interface
+- [x] ProblemServiceImpl
+  - [x] getAllProblems() - Pagination
+  - [x] searchProblems() - Search by keyword
+  - [x] filterProblems() - Filter by difficulty, category
+  - [x] getProblemById()
+  - [x] createProblem() - ADMIN only
+  - [x] updateProblem() - ADMIN only
+  - [x] deleteProblem() - ADMIN only
   
-- [ ] TestCaseService interface
-- [ ] TestCaseServiceImpl
-  - [ ] createTestCase() - ADMIN only
-  - [ ] updateTestCase() - ADMIN only
-  - [ ] deleteTestCase() - ADMIN only
+- [x] TestCaseService interface
+- [x] TestCaseServiceImpl
+  - [x] getTestCasesByProblemId() - Public/All
+  - [x] createTestCase() - ADMIN only
+  - [x] updateTestCase() - ADMIN only
+  - [x] deleteTestCase() - ADMIN only
 
 #### Controllers
-- [ ] ProblemController
-  - [ ] GET /api/problems - List với filter, pagination
-  - [ ] GET /api/problems/{id} - Detail
-  - [ ] POST /api/problems - Create (ADMIN)
-  - [ ] PUT /api/problems/{id} - Update (ADMIN)
-  - [ ] DELETE /api/problems/{id} - Delete (ADMIN)
+- [x] ProblemController
+  - [x] GET /api/problems - List với pagination
+  - [x] GET /api/problems/search - Search với keyword
+  - [x] GET /api/problems/filter - Filter by difficulty, category
+  - [x] GET /api/problems/{id} - Detail
+  - [x] POST /api/problems - Create (ADMIN)
+  - [x] PUT /api/problems/{id} - Update (ADMIN)
+  - [x] DELETE /api/problems/{id} - Delete (ADMIN)
   
-- [ ] TestCaseController
-  - [ ] GET /api/problems/{problemId}/test-cases - Get test cases
-  - [ ] POST /api/problems/{problemId}/test-cases - Create (ADMIN)
-  - [ ] PUT /api/test-cases/{id} - Update (ADMIN)
-  - [ ] DELETE /api/test-cases/{id} - Delete (ADMIN)
+- [x] TestCaseController
+  - [x] GET /api/problems/{problemId}/test-cases - Get test cases
+  - [x] POST /api/problems/{problemId}/test-cases - Create (ADMIN)
+  - [x] PUT /api/problems/test-cases/{id} - Update (ADMIN)
+  - [x] DELETE /api/problems/test-cases/{id} - Delete (ADMIN)
 
 #### Exceptions
-- [ ] ProblemNotFoundException
-- [ ] TestCaseNotFoundException
-- [ ] GlobalExceptionHandler
+- [x] ProblemNotFoundException
+- [x] TestCaseNotFoundException
+- [x] GlobalExceptionHandler
+
+#### Documentation
+- [x] README.md
 
 #### Testing
 - [ ] Unit tests
 - [ ] Integration tests
+
+**Lưu ý:** Files đã được tạo trong problem_service package. Cần chạy `create-folders.bat` và di chuyển files vào thư mục con tương ứng (exceptions/, configs/, securities/, services/impl/).
 
 ---
 
@@ -484,9 +494,9 @@ Backend Services (Trust Gateway - Đọc Headers)
 8. API Gateway (8080) - Khởi động cuối cùng
 
 ### Current Priority
-1. **API Gateway** - Core infrastructure
-2. **User Service** - Fix architecture
-3. **Problem Service** - Cần để test submission
+1. ✅ **API Gateway** - HOÀN THÀNH
+2. ✅ **User Service** - HOÀN THÀNH
+3. ✅ **Problem Service** - HOÀN THÀNH (cần organize files)
 4. **Submission Service** - Main feature
 5. **Judging Service** - Main feature
 
@@ -508,4 +518,5 @@ Backend Services (Trust Gateway - Đọc Headers)
 ---
 
 **Ngày bắt đầu:** 06/04/2026
-**Ngày hoàn thành dự kiến:** TBD
+**Services hoàn thành:** API Gateway, User Service, Problem Service
+**Tiến độ:** 3/7 services (43%)

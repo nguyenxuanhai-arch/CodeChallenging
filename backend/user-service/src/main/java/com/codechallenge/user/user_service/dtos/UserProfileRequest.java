@@ -15,21 +15,21 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserProfileRequest {
     
-    @NotNull(message = "ID is required")
+    @NotNull(message = "ID không được để trống")
     private Long id;
 
-    @NotBlank(message = "Username is required")
-    @Size(min = 3, max = 50, message = "Username must be between 3 and 50 characters")
+    @NotBlank(message = "username không được để trống")
+    @Size(min = 3, max = 50, message = "username phải có độ dài từ 3 đến 50 ký tự")
     private String username;
 
-    @NotBlank(message = "Email is required")
-    @Email(message = "Invalid email format")
+    @NotBlank(message = "Email không được để trống")
+    @Email(message = "Email phải có định dạng hợp lệ")
     private String email;
 
-    @Size(max = 255, message = "Address must not exceed 255 characters")
+    @Size(max = 255, message = "Địa chỉ không được vượt quá 255 ký tự")
     private String address;
 
-    @Size(max = 20, message = "Phone must not exceed 20 characters")
+    @Size(max = 20, message = "Phone phải có độ dài tối đa 20 ký tự")
     private String phone;
 
     private String role;
