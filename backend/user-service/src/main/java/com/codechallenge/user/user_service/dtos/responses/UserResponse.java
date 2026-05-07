@@ -1,4 +1,4 @@
-package com.codechallenge.user.user_service.dtos;
+package com.codechallenge.user.user_service.dtos.responses;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -4,7 +4,7 @@ import com.codechallenge.problem.problem_service.dtos.ProblemCreateRequest;
 import com.codechallenge.problem.problem_service.dtos.ProblemResponse;
 import com.codechallenge.problem.problem_service.dtos.ProblemUpdateRequest;
 import com.codechallenge.problem.problem_service.entities.Problem;
-import com.codechallenge.problem.problem_service.services.ProblemService;
+import com.codechallenge.problem.problem_service.services.interfaces.ProblemService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

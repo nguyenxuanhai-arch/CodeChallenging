@@ -34,7 +34,7 @@ public class ProblemResponse {
         response.setDifficulty(problem.getDifficulty());
         response.setTimeLimit(problem.getTimeLimit());
         response.setMemoryLimit(problem.getMemoryLimit());
-        response.setTags(problem.getTags() != null ? List.of(problem.getTags().split(",")) : List.of());
+        response.setTags(problem.getTags());
         response.setCategory(problem.getCategory());
         response.setCreatedBy(problem.getCreatedBy());
         response.setCreatedAt(problem.getCreatedAt());

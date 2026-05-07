@@ -1,9 +1,9 @@
 package com.codechallenge.user.user_service.controllers;
 
-import com.codechallenge.user.user_service.dtos.UserResponse;
-import com.codechallenge.user.user_service.dtos.UserProfileRequest;
-import com.codechallenge.user.user_service.dtos.UserUpdateRequest;
-import com.codechallenge.user.user_service.services.UserService;
+import com.codechallenge.user.user_service.dtos.responses.UserResponse;
+import com.codechallenge.user.user_service.dtos.requests.UserProfileRequest;
+import com.codechallenge.user.user_service.dtos.requests.UserUpdateRequest;
+import com.codechallenge.user.user_service.services.interfaces.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

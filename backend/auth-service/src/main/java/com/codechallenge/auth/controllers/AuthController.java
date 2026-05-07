@@ -26,7 +26,7 @@ import com.codechallenge.auth.resources.RegisterResource;
 @CrossOrigin(origins = "*")
 @Validated
 @RestController
-@RequestMapping("api/auth")
+@RequestMapping("/auth")
 public class AuthController {
     private final UserServiceInterface userService;
 

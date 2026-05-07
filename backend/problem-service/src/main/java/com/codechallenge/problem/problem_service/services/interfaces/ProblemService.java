@@ -1,4 +1,4 @@
-package com.codechallenge.problem.problem_service.services;
+package com.codechallenge.problem.problem_service.services.interfaces;
 
 import com.codechallenge.problem.problem_service.dtos.ProblemCreateRequest;
 import com.codechallenge.problem.problem_service.dtos.ProblemResponse;

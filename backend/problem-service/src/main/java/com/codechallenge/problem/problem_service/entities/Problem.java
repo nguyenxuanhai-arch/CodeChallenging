@@ -33,19 +33,24 @@ public class Problem {
     private Difficulty difficulty;
 
     @Column(nullable = false)
-    private Integer timeLimit; // milliseconds
+    private Integer timeLimit;
 
     @Column(nullable = false)
-    private Integer memoryLimit; // MB
+    private Integer memoryLimit;
 
-    @Column(columnDefinition = "TEXT")
-    private String tags; // Comma-separated: "array,sorting,dp"
+    @ElementCollection
+    @CollectionTable(
+            name = "problem_tags",
+            joinColumns = @JoinColumn(name = "problem_id")
+    )
+    @Column(name = "tag", length = 50, nullable = false)
+    private List<String> tags = new ArrayList<>();
 
     @Column(length = 100)
     private String category;
 
     @Column(nullable = false)
-    private Long createdBy; // User ID from Auth Service
+    private Long createdBy;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)

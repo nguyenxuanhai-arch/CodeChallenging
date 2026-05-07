@@ -1,12 +1,14 @@
-package com.codechallenge.problem.problem_service.services;
+package com.codechallenge.problem.problem_service.services.impl;
 
 import com.codechallenge.problem.problem_service.dtos.ProblemCreateRequest;
 import com.codechallenge.problem.problem_service.dtos.ProblemResponse;
 import com.codechallenge.problem.problem_service.dtos.ProblemUpdateRequest;
 import com.codechallenge.problem.problem_service.entities.Problem;
 import com.codechallenge.problem.problem_service.exceptions.ProblemNotFoundException;
+import com.codechallenge.problem.problem_service.mappers.ProblemMapper;
 import com.codechallenge.problem.problem_service.repositories.ProblemRepository;
 
+import com.codechallenge.problem.problem_service.services.interfaces.ProblemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,44 +20,38 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProblemServiceImpl implements ProblemService {
 
     private final ProblemRepository problemRepository;
+    private final ProblemMapper problemMapper;
 
     @Override
     public Page<ProblemResponse> getAllProblems(Pageable pageable) {
-        return problemRepository.findAll(pageable).map(ProblemResponse::fromEntity);
+        return problemMapper.toPageResponse(problemRepository.findAll(pageable));
     }
 
     @Override
     public Page<ProblemResponse> searchProblems(String keyword, Pageable pageable) {
-        return problemRepository.searchByKeyword(keyword, pageable).map(ProblemResponse::fromEntity);
+        return problemMapper.toPageResponse(problemRepository.searchByKeyword(keyword, pageable));
     }
 
     @Override
     public Page<ProblemResponse> filterProblems(Problem.Difficulty difficulty, String category, Pageable pageable) {
-        return problemRepository.findByFilters(difficulty, category, pageable).map(ProblemResponse::fromEntity);
+        return problemMapper.toPageResponse(problemRepository.findByFilters(difficulty, category, pageable));
     }
 
     @Override
     public ProblemResponse getProblemById(Long id) {
         Problem problem = problemRepository.findById(id)
                 .orElseThrow(() -> new ProblemNotFoundException(id));
-        return ProblemResponse.fromEntity(problem);
+        return problemMapper.toResponse(problem);
     }
 
     @Override
     @Transactional
     public ProblemResponse createProblem(ProblemCreateRequest request, Long createdBy) {
-        Problem problem = new Problem();
-        problem.setTitle(request.getTitle());
-        problem.setDescription(request.getDescription());
-        problem.setDifficulty(request.getDifficulty());
-        problem.setTimeLimit(request.getTimeLimit());
-        problem.setMemoryLimit(request.getMemoryLimit());
-        problem.setTags(request.getTags() != null ? String.join(",", request.getTags()) : null);
-        problem.setCategory(request.getCategory());
+        Problem problem = problemMapper.toEntity(request);
         problem.setCreatedBy(createdBy);
 
         Problem savedProblem = problemRepository.save(problem);
-        return ProblemResponse.fromEntity(savedProblem);
+        return problemMapper.toResponse(savedProblem);
     }
 
     @Override
@@ -64,30 +60,8 @@ public class ProblemServiceImpl implements ProblemService {
         Problem problem = problemRepository.findById(id)
                 .orElseThrow(() -> new ProblemNotFoundException(id));
 
-        if (request.getTitle() != null) {
-            problem.setTitle(request.getTitle());
-        }
-        if (request.getDescription() != null) {
-            problem.setDescription(request.getDescription());
-        }
-        if (request.getDifficulty() != null) {
-            problem.setDifficulty(request.getDifficulty());
-        }
-        if (request.getTimeLimit() != null) {
-            problem.setTimeLimit(request.getTimeLimit());
-        }
-        if (request.getMemoryLimit() != null) {
-            problem.setMemoryLimit(request.getMemoryLimit());
-        }
-        if (request.getTags() != null) {
-            problem.setTags(String.join(",", request.getTags()));
-        }
-        if (request.getCategory() != null) {
-            problem.setCategory(request.getCategory());
-        }
-
-        Problem updatedProblem = problemRepository.save(problem);
-        return ProblemResponse.fromEntity(updatedProblem);
+        problemMapper.updateEntityFromRequest(request, problem);
+        return problemMapper.toResponse(problem);
     }
 
     @Override

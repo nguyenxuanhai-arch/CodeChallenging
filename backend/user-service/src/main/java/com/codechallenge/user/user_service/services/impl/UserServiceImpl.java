@@ -1,17 +1,16 @@
 package com.codechallenge.user.user_service.services.impl;
 
-import com.codechallenge.user.user_service.dtos.UserResponse;
-import com.codechallenge.user.user_service.dtos.UserProfileRequest;
-import com.codechallenge.user.user_service.dtos.UserUpdateRequest;
+import com.codechallenge.user.user_service.dtos.responses.UserResponse;
+import com.codechallenge.user.user_service.dtos.requests.UserProfileRequest;
+import com.codechallenge.user.user_service.dtos.requests.UserUpdateRequest;
 import com.codechallenge.user.user_service.entities.User;
 import com.codechallenge.user.user_service.exceptions.UserNotFoundException;
 import com.codechallenge.user.user_service.repositories.UserRepository;
-import com.codechallenge.user.user_service.services.UserService;
+import com.codechallenge.user.user_service.services.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,8 +1,8 @@
-package com.codechallenge.user.user_service.services;
+package com.codechallenge.user.user_service.services.interfaces;
 
-import com.codechallenge.user.user_service.dtos.UserResponse;
-import com.codechallenge.user.user_service.dtos.UserProfileRequest;
-import com.codechallenge.user.user_service.dtos.UserUpdateRequest;
+import com.codechallenge.user.user_service.dtos.responses.UserResponse;
+import com.codechallenge.user.user_service.dtos.requests.UserProfileRequest;
+import com.codechallenge.user.user_service.dtos.requests.UserUpdateRequest;
 import java.util.List;
 
 public interface UserService {

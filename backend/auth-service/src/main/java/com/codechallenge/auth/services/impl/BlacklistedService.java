@@ -3,6 +3,7 @@ package com.codechallenge.auth.services.impl;
 import com.codechallenge.auth.entities.BlacklistedToken;
 import com.codechallenge.auth.resources.ApiResource;
 import io.jsonwebtoken.Claims;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +15,11 @@ import java.util.Date;
 import com.codechallenge.auth.services.JwtService;
 import com.codechallenge.auth.requests.BlacklistTokenRequest;
 
+@RequiredArgsConstructor
 @Service
 public class BlacklistedService {
-    @Autowired
-    private BlacklistedTokenRepository blacklistedTokenRepository;
-
-    @Autowired
-    private JwtService jwtService;
-
+    private final BlacklistedTokenRepository blacklistedTokenRepository;
+    private final JwtService jwtService;
     private static final Logger logger = LoggerFactory.getLogger(BlacklistedService.class);
 
     public Object create(BlacklistTokenRequest request) {
@@ -30,7 +28,7 @@ public class BlacklistedService {
                 return ApiResource.error("TOKEN_ALREADY_EXISTS", "Token da ton tai trong blacklist", HttpStatus.BAD_REQUEST);
             }
            Claims claims = jwtService.getAllClaimsFromToken(request.getToken());
-           Long userId = Long.valueOf(claims.getSubject());
+           long userId = Long.parseLong(claims.getSubject());
            Date expiryDate = claims.getExpiration();
            BlacklistedToken blacklistedToken = new BlacklistedToken();
            blacklistedToken.setToken(request.getToken());

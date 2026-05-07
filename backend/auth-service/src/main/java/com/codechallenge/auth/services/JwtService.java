@@ -28,16 +28,18 @@ public class JwtService {
     private final JwtConfig jwtConfig;
     private final Key key;
     private static final Logger logger = LoggerFactory.getLogger(JwtService.class);
+    private final BlacklistedTokenRepository blacklistedTokenRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
 
-    @Autowired
-    private BlacklistedTokenRepository blacklistedTokenRepository;
-
-    @Autowired
-    private RefreshTokenRepository refreshTokenRepository;
-
-    public JwtService(JwtConfig jwtConfig) {
+    public JwtService(
+            JwtConfig jwtConfig,
+            BlacklistedTokenRepository blacklistedTokenRepository,
+            RefreshTokenRepository refreshTokenRepository
+    ) {
         this.jwtConfig = jwtConfig;
         this.key = Keys.hmacShaKeyFor(Base64.getEncoder().encode(jwtConfig.getSecretKey().getBytes()));
+        this.blacklistedTokenRepository = blacklistedTokenRepository;
+        this.refreshTokenRepository = refreshTokenRepository;
     }
 
     public String generateToken(Long userId, String email, Long expirationTime) {

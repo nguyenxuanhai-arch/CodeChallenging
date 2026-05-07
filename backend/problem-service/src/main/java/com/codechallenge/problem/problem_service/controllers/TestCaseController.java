@@ -3,7 +3,7 @@ package com.codechallenge.problem.problem_service.controllers;
 import com.codechallenge.problem.problem_service.dtos.TestCaseCreateRequest;
 import com.codechallenge.problem.problem_service.dtos.TestCaseResponse;
 import com.codechallenge.problem.problem_service.dtos.TestCaseUpdateRequest;
-import com.codechallenge.problem.problem_service.services.TestCaseService;
+import com.codechallenge.problem.problem_service.services.interfaces.TestCaseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

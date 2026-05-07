@@ -3,6 +3,7 @@ package com.codechallenge.auth.services.impl;
 import com.codechallenge.auth.services.interfaces.UserServiceInterface;
 import com.codechallenge.auth.resources.ApiResource;
 import com.codechallenge.auth.services.JwtService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,19 +19,15 @@ import com.codechallenge.auth.resources.UserResource;
 import com.codechallenge.auth.repositories.UserRepository;
 import com.codechallenge.auth.requests.RegisterRequest;
 
+@RequiredArgsConstructor
 @Service
 public class UserService implements UserServiceInterface {
 
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
-    @Autowired
-    private JwtService jwtService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private UserRepository userRepository;
+    private final JwtService jwtService;
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
 
     @Value("${jwt.defaultExpiration}")
     private long defaultExpiration;

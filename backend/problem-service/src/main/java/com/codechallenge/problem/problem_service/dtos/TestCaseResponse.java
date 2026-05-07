@@ -27,14 +27,4 @@ public class TestCaseResponse {
         return response;
     }
 
-    public static TestCaseResponse fromEntityPublicOnly(TestCase testCase) {
-        TestCaseResponse response = new TestCaseResponse();
-        response.setId(testCase.getId());
-        response.setProblemId(testCase.getProblem().getId());
-        response.setInput(testCase.getInput());
-        response.setExpectedOutput(testCase.getExpectedOutput());
-        response.setIsPublic(testCase.getIsPublic());
-        response.setOrderIndex(testCase.getOrderIndex());
-        return response;
-    }
 }

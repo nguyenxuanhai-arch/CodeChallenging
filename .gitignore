@@ -1,3 +1,4 @@
 .github/copilot-instructions.md
 .idea/
 node_modules/
+.vscode/settings.json

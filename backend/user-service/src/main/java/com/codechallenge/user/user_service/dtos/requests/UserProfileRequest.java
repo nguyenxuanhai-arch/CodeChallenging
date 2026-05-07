@@ -1,4 +1,4 @@
-package com.codechallenge.user.user_service.dtos;
+package com.codechallenge.user.user_service.dtos.requests;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

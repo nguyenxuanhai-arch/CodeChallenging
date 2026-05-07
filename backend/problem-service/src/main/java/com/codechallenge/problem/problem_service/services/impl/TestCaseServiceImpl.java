@@ -1,4 +1,4 @@
-package com.codechallenge.problem.problem_service.services;
+package com.codechallenge.problem.problem_service.services.impl;
 
 import com.codechallenge.problem.problem_service.dtos.TestCaseCreateRequest;
 import com.codechallenge.problem.problem_service.dtos.TestCaseResponse;
@@ -7,9 +7,11 @@ import com.codechallenge.problem.problem_service.entities.Problem;
 import com.codechallenge.problem.problem_service.entities.TestCase;
 import com.codechallenge.problem.problem_service.exceptions.ProblemNotFoundException;
 import com.codechallenge.problem.problem_service.exceptions.TestCaseNotFoundException;
+import com.codechallenge.problem.problem_service.mappers.TestCaseMapper;
 import com.codechallenge.problem.problem_service.repositories.ProblemRepository;
 import com.codechallenge.problem.problem_service.repositories.TestCaseRepository;
 
+import com.codechallenge.problem.problem_service.services.interfaces.TestCaseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +25,7 @@ public class TestCaseServiceImpl implements TestCaseService {
 
     private final TestCaseRepository testCaseRepository;
     private final ProblemRepository problemRepository;
+    private final TestCaseMapper testCaseMapper;
 
     @Override
     public List<TestCaseResponse> getTestCasesByProblemId(Long problemId, boolean publicOnly) {
@@ -30,9 +33,7 @@ public class TestCaseServiceImpl implements TestCaseService {
                 ? testCaseRepository.findByProblemIdAndIsPublicTrueOrderByOrderIndexAsc(problemId)
                 : testCaseRepository.findByProblemIdOrderByOrderIndexAsc(problemId);
 
-        return testCases.stream()
-                .map(TestCaseResponse::fromEntity)
-                .collect(Collectors.toList());
+        return testCaseMapper.toResponseList(testCases);
     }
 
     @Override
@@ -41,15 +42,11 @@ public class TestCaseServiceImpl implements TestCaseService {
         Problem problem = problemRepository.findById(problemId)
                 .orElseThrow(() -> new ProblemNotFoundException(problemId));
 
-        TestCase testCase = new TestCase();
+        TestCase testCase = testCaseMapper.toEntity(request);
         testCase.setProblem(problem);
-        testCase.setInput(request.getInput());
-        testCase.setExpectedOutput(request.getExpectedOutput());
-        testCase.setIsPublic(request.getIsPublic());
-        testCase.setOrderIndex(request.getOrderIndex() != null ? request.getOrderIndex() : 0);
 
-        TestCase savedTestCase = testCaseRepository.save(testCase);
-        return TestCaseResponse.fromEntity(savedTestCase);
+        testCaseRepository.save(testCase);
+        return testCaseMapper.toResponse(testCase);
     }
 
     @Override
@@ -58,21 +55,9 @@ public class TestCaseServiceImpl implements TestCaseService {
         TestCase testCase = testCaseRepository.findById(id)
                 .orElseThrow(() -> new TestCaseNotFoundException(id));
 
-        if (request.getInput() != null) {
-            testCase.setInput(request.getInput());
-        }
-        if (request.getExpectedOutput() != null) {
-            testCase.setExpectedOutput(request.getExpectedOutput());
-        }
-        if (request.getIsPublic() != null) {
-            testCase.setIsPublic(request.getIsPublic());
-        }
-        if (request.getOrderIndex() != null) {
-            testCase.setOrderIndex(request.getOrderIndex());
-        }
+        testCaseMapper.updateEntityFromRequest(request, testCase);
 
-        TestCase updatedTestCase = testCaseRepository.save(testCase);
-        return TestCaseResponse.fromEntity(updatedTestCase);
+        return testCaseMapper.toResponse(testCase);
     }
 
     @Override
